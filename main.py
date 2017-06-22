@@ -1,4 +1,7 @@
 import sys
+
+import pygame
+from pygame.locals import *
 from time import sleep
 from random import randrange
 
@@ -16,12 +19,13 @@ def init_world(world, size, proportion):
                 world[pos_x][pos_y] = 1
                 break
 
-def dump_world(world):
-    for line in world:
-        for elem in line:
-            sys.stdout.write(str(elem))
-        sys.stdout.write("\n")
-    print "\n\n\n"
+def dump_world(world, iterator, sprite_cell, backgroud, window):
+    window.blit(background, (0, 0))
+    for x in iterator:
+        for y in iterator:
+            if (world[x][y] == 1):
+                window.blit(sprite_cell, ((x) * 32, (y) * 32)) 
+    pygame.display.flip()
             
 def check_neighbors(world, size, x, y):
     cells = 0
@@ -67,14 +71,21 @@ def life(world, size):
     for elem in coords:
         world[elem[0]][elem[1]] = 1
 
-size = 32
+size = 18
 proportion = 3
 
+pygame.init()
+window =  pygame.display.set_mode((600, 600))
+background = pygame.image.load("./ressources/space.jpg").convert()
+sprite_cell = pygame.image.load("./ressources/cell.png").convert_alpha()
+sprite_cell.set_colorkey((255, 0, 255))
+window.blit(background,(0,0))
 while True:
-    world = [[0 for x in range(size)] for y in range(size)]
+    iterator = range(size)
+    world = [[0 for x in iterator] for y in iterator]
     init_world(world, size, proportion)
     while True:
-        dump_world(world)
+        dump_world(world, iterator, sprite_cell, background, window)
         life(world, size)
         sleep(1)
     break
