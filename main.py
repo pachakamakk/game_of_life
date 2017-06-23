@@ -76,7 +76,8 @@ proportion = 3
 
 pygame.init()
 window =  pygame.display.set_mode((600, 600))
-background = pygame.image.load("./ressources/space.jpg").convert()
+background = pygame.Surface((WIDTH, HEIGHT))
+background.fill((0,0,0))
 sprite_cell = pygame.image.load("./ressources/cell.png").convert_alpha()
 sprite_cell.set_colorkey((255, 0, 255))
 window.blit(background,(0,0))
